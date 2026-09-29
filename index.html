@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أ. أحمد هاشم | الحركة الدائرية والإزاحة الزاوية</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --gold:#d4af37;
+  --gold-light:#f1d375;
+  --gold-dark:#9c7a1e;
+  --navy-1:#050b1a;
+  --navy-2:#0b1530;
+  --navy-3:#101c3d;
+  --navy-4:#152449;
+  --text-light:#f4f2ea;
+  --text-dim:#c9cee0;
+  --danger:#e74c3c;
+  --success:#2ecc71;
+  --card-border:rgba(212,175,55,.35);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:"Tahoma","Segoe UI",Arial,sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%, #0e1c3e 0%, transparent 45%),
+    radial-gradient(circle at 85% 90%, #0e1c3e 0%, transparent 45%),
+    linear-gradient(160deg,var(--navy-1),var(--navy-2) 45%,var(--navy-3) 100%);
+  color:var(--text-light);
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+/* Watermark layer */
+.watermark-layer{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  transform:rotate(-28deg) scale(1.4);
+  opacity:.05;
+}
+.watermark-layer span{
+  font-size:34px;font-weight:800;color:var(--gold);
+  margin:38px 55px;white-space:nowrap;letter-spacing:2px;
+}
+.page-wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:18px 16px 60px;}
+
+/* Header */
+header.site-header{
+  text-align:center;padding:22px 10px 18px;
+  border-bottom:3px solid var(--gold);
+  margin-bottom:18px;
+}
+.brand-row{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;}
+.brand-badge{
+  width:64px;height:64px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,var(--gold-light),var(--gold-dark));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;color:#1a1300;font-size:26px;
+  box-shadow:0 0 18px rgba(212,175,55,.55), inset 0 0 8px rgba(0,0,0,.35);
+  border:2px solid #fff4d1;
+}
+h1.main-title{
+  font-size:clamp(22px,4vw,34px);
+  font-weight:900;
+  color:var(--gold);
+  text-shadow:0 0 10px rgba(212,175,55,.45), 1px 1px 0 #000;
+  margin:0;
+  letter-spacing:.5px;
+}
+.sub-en{
+  color:var(--gold-light);
+  font-weight:700;
+  letter-spacing:2px;
+  font-size:15px;
+  margin-top:2px;
+}
+.header-meta{
+  color:var(--text-dim);font-size:14px;margin-top:8px;
+}
+.header-meta b{color:var(--gold-light);}
+.lecture-title{
+  margin-top:14px;font-size:clamp(16px,2.6vw,22px);
+  color:var(--text-light);font-weight:800;
+  background:linear-gradient(90deg,transparent,rgba(212,175,55,.15),transparent);
+  padding:8px 6px;border-radius:8px;
+}
+.lecture-title .grade-badge{
+  display:inline-block;background:var(--gold);color:#151000;
+  padding:3px 12px;border-radius:20px;font-size:13px;font-weight:800;margin-inline-start:8px;
+}
+
+/* Nav */
+nav.tabs{
+  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+  margin:20px 0 26px;
+}
+nav.tabs button{
+  background:var(--navy-4);
+  border:2px solid var(--card-border);
+  color:var(--text-light);
+  padding:12px 22px;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s;
+  font-family:inherit;
+}
+nav.tabs button:hover{border-color:var(--gold);transform:translateY(-2px);}
+nav.tabs button.active{
+  background:linear-gradient(180deg,var(--gold-light),var(--gold-dark));
+  color:#151000;
+  border-color:var(--gold);
+  box-shadow:0 4px 14px rgba(212,175,55,.4);
+}
+nav.tabs button.teacher-btn{border-color:#7d8bc7;}
+
+section.view{display:none;animation:fadeIn .35s ease;}
+section.view.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+.card{
+  background:linear-gradient(160deg,rgba(21,36,73,.9),rgba(11,21,48,.92));
+  border:1px solid var(--card-border);
+  border-radius:16px;
+  padding:22px 22px;
+  margin-bottom:20px;
+  box-shadow:0 6px 22px rgba(0,0,0,.35);
+}
+h2.section-title{
+  color:var(--gold);
+  font-weight:900;
+  font-size:clamp(20px,3vw,26px);
+  border-bottom:4px solid var(--gold);
+  display:inline-block;
+  padding-bottom:6px;
+  margin:0 0 18px 0;
+  text-shadow:0 0 8px rgba(212,175,55,.3);
+}
+h3.part-title{
+  color:#151000;
+  background:linear-gradient(90deg,var(--gold-light),var(--gold-dark));
+  display:inline-block;
+  padding:6px 18px;
+  border-radius:20px;
+  font-size:17px;
+  font-weight:900;
+  margin:22px 0 12px;
+}
+h4.point-title{
+  color:var(--gold-light);
+  font-size:17px;font-weight:800;
+  margin:16px 0 6px;
+  border-right:4px solid var(--gold);
+  padding-right:10px;
+}
+p, li{color:var(--text-light);line-height:1.9;font-size:15.5px;}
+ul.pointy{padding-inline-start:22px;}
+ul.pointy li{margin-bottom:6px;}
+.formula-box{
+  background:rgba(0,0,0,.35);
+  border:1.5px solid var(--gold);
+  border-radius:10px;
+  padding:14px 18px;
+  margin:12px 0;
+  text-align:center;
+  font-size:20px;
+  font-weight:800;
+  color:var(--gold-light);
+  letter-spacing:1px;
+  direction:ltr;
+}
+.formula-box small{
+  display:block;color:var(--text-dim);font-size:13px;margin-top:6px;direction:rtl;font-weight:600;
+}
+table.compare{
+  width:100%;border-collapse:collapse;margin:14px 0;
+  font-size:14.5px;
+}
+table.compare th{
+  background:var(--gold-dark);color:#151000;padding:10px;border:1px solid var(--gold);
+}
+table.compare td{
+  padding:10px;border:1px solid var(--card-border);color:var(--text-light);
+  background:rgba(255,255,255,.03);
+  vertical-align:top;
+}
+.note-box{
+  background:rgba(212,175,55,.08);
+  border-right:4px solid var(--gold);
+  padding:10px 14px;border-radius:8px;margin:10px 0;color:var(--text-dim);
+  font-size:14px;
+}
+.badge-part{
+  display:inline-block;background:var(--navy-4);color:var(--gold-light);
+  border:1px solid var(--gold);padding:2px 10px;border-radius:14px;font-size:12px;font-weight:700;margin-inline-start:6px;
+}
+.example-box{
+  background:rgba(46,204,113,.06);
+  border:1px solid rgba(46,204,113,.4);
+  border-radius:10px;padding:14px 16px;margin:14px 0;
+}
+.example-box h5{color:#7be3a3;margin:0 0 8px;font-size:15.5px;}
+.solution-toggle{
+  margin-top:10px;background:transparent;border:1.5px dashed var(--gold);
+  color:var(--gold-light);padding:6px 14px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px;
+}
+.solution-body{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(212,175,55,.3);}
+.solution-body.show{display:block;}
+.answer-only{
+  display:inline-block;margin-top:8px;background:rgba(212,175,55,.15);
+  border:1px solid var(--gold);padding:4px 12px;border-radius:8px;color:var(--gold-light);font-weight:800;font-size:14px;
+}
+.qbox{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--card-border);
+  border-radius:10px;padding:14px 16px;margin-bottom:14px;
+}
+.qbox .qnum{color:var(--gold);font-weight:900;}
+
+/* Quiz */
+.quiz-gate{max-width:520px;margin:0 auto;text-align:center;}
+.quiz-gate input{
+  width:100%;padding:12px 14px;margin:8px 0;border-radius:10px;
+  border:1.5px solid var(--card-border);background:rgba(255,255,255,.05);color:var(--text-light);font-size:15px;
+}
+.quiz-gate input:focus{outline:none;border-color:var(--gold);}
+.btn-gold{
+  background:linear-gradient(180deg,var(--gold-light),var(--gold-dark));
+  color:#151000;border:none;padding:12px 30px;border-radius:12px;
+  font-weight:900;font-size:16px;cursor:pointer;margin-top:10px;
+  box-shadow:0 4px 14px rgba(212,175,55,.35);
+}
+.btn-gold:hover{filter:brightness(1.08);}
+.btn-outline{
+  background:transparent;border:1.5px solid var(--gold);color:var(--gold-light);
+  padding:10px 22px;border-radius:10px;font-weight:800;cursor:pointer;font-size:14px;
+}
+.warn-list{text-align:right;background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.5);
+  border-radius:10px;padding:14px 18px;margin:14px 0;color:#ffdcd6;font-size:14px;}
+.timer-bar{
+  position:sticky;top:0;z-index:5;background:var(--navy-1);
+  border:1px solid var(--gold);border-radius:12px;
+  padding:10px 18px;display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:16px;font-weight:800;
+}
+.timer-bar #timerDisplay{color:var(--gold-light);font-size:20px;direction:ltr;}
+.quiz-q{background:rgba(255,255,255,.03);border:1px solid var(--card-border);border-radius:12px;
+  padding:16px 18px;margin-bottom:14px;}
+.quiz-q .qtext{font-weight:800;color:var(--text-light);margin-bottom:10px;font-size:15.5px;}
+.quiz-q label{
+  display:block;background:rgba(255,255,255,.02);border:1px solid transparent;
+  border-radius:8px;padding:9px 12px;margin-bottom:7px;cursor:pointer;transition:.15s;
+}
+.quiz-q label:hover{border-color:var(--gold);}
+.quiz-q input[type=radio]{margin-inline-end:8px;}
+.result-card{text-align:center;}
+.result-score{font-size:52px;font-weight:900;color:var(--gold);margin:12px 0;}
+.strength-box, .weak-box{
+  text-align:right;border-radius:10px;padding:14px 18px;margin:10px 0;
+}
+.strength-box{background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.5);}
+.weak-box{background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.5);}
+
+/* Teacher dashboard */
+.teacher-gate{max-width:420px;margin:0 auto;text-align:center;}
+table.dash{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:16px;}
+table.dash th{background:var(--gold-dark);color:#151000;padding:8px;border:1px solid var(--gold);position:sticky;top:0;}
+table.dash td{padding:8px;border:1px solid var(--card-border);color:var(--text-light);background:rgba(255,255,255,.03);}
+.dash-wrap{overflow-x:auto;}
+.stat-cards{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
+.stat-card{flex:1;min-width:150px;background:rgba(212,175,55,.08);border:1px solid var(--gold);
+  border-radius:12px;padding:14px;text-align:center;}
+.stat-card .num{font-size:26px;font-weight:900;color:var(--gold-light);}
+.stat-card .lbl{font-size:13px;color:var(--text-dim);margin-top:4px;}
+footer.site-footer{
+  text-align:center;color:var(--text-dim);font-size:13px;padding:20px 0 6px;
+  border-top:1px solid var(--card-border);margin-top:26px;
+}
+.small-note{font-size:12.5px;color:var(--text-dim);}
+.review-toc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.review-toc a{
+  background:var(--navy-4);border:1px solid var(--card-border);color:var(--gold-light);
+  padding:6px 14px;border-radius:16px;font-size:13px;text-decoration:none;font-weight:700;
+}
+.review-toc a:hover{border-color:var(--gold);}
+
+/* ===== Approved-version motion system ===== */
+.card{animation:cardIn .6s ease both;}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+.brand-badge{animation:pulseGlow 3s ease-in-out infinite;}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 14px rgba(212,175,55,.45), inset 0 0 8px rgba(0,0,0,.35);}50%{box-shadow:0 0 28px rgba(212,175,55,.85), inset 0 0 8px rgba(0,0,0,.35);}}
+.orbit-wrap{display:flex;justify-content:center;margin:10px 0 18px;}
+.orbit-wrap svg{max-width:300px;width:100%;height:auto;}
+.orbit-arm{transform-origin:150px 150px;animation:spin 8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.center-pulse{transform-origin:150px 150px;animation:pulseDot 2s ease-in-out infinite;}
+@keyframes pulseDot{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.5);opacity:.7;}}
+.body-pulse{animation:pulseBody 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes pulseBody{0%,100%{transform:scale(1);}50%{transform:scale(1.25);}}
+.share-row{text-align:center;margin-top:16px;}
+.btn-share{background:#25D366;color:#06210f;border:none;padding:11px 24px;border-radius:12px;font-weight:900;font-size:15px;cursor:pointer;font-family:inherit;}
+.btn-share:hover{filter:brightness(1.08);}
+.share-toast{display:none;margin-top:10px;color:var(--gold-light);font-weight:700;font-size:14px;}
+.teacher-link{background:none;border:none;color:var(--text-dim);font-size:12px;cursor:pointer;text-decoration:underline;opacity:.7;font-family:inherit;margin-top:8px;}
+.teacher-link:hover{opacity:1;color:var(--gold-light);}
+.diagram-wrap{display:flex;justify-content:center;margin:10px 0;}
+.diagram-wrap svg{max-width:460px;width:100%;height:auto;}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;}
+}
+</style>
+</head>
+<body>
+
+<div class="watermark-layer" id="watermarkLayer"></div>
+
+<div class="page-wrap">
+
+  <header class="site-header">
+    <div class="brand-row">
+      <div class="brand-badge">AH</div>
+      <div>
+        <h1 class="main-title">أ. أحمد هاشم</h1>
+        <div class="sub-en">PHYSICS TEACHER</div>
+      </div>
+    </div>
+    <div class="header-meta">للتواصل: <b dir="ltr">+20 100 302 1923</b></div>
+    <div class="lecture-title">
+      المحاضرة الأولى: الحركة الدائرية والإزاحة الزاوية
+      <span class="grade-badge">الصف الثاني عشر — قطر</span>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button data-target="home" class="active">🏠 الرئيسية</button>
+    <button data-target="explain">📘 شرح</button>
+    <button data-target="review">📝 مراجعة</button>
+    <button data-target="quiz">🧪 اختبار</button>
+  </nav>
+
+  <!-- HOME -->
+  <section class="view active" id="view-home">
+    <div class="card">
+      <h2 class="section-title">مرحباً بك في المحاضرة الأولى</h2>
+      <p>هذه المحاضرة التفاعلية تغطي موضوع <b>الحركة الدائرية والإزاحة الزاوية</b> ضمن منهج الصف الثاني عشر (دولة قطر)، مقسّمة إلى ثلاثة أقسام رئيسية:</p>
+      <ul class="pointy">
+        <li><b>📘 شرح:</b> شرح علمي دقيق للدرس مقسّم إلى جزأين (الجزء الأول والجزء الثاني) كما وردا في المحاضرة.</li>
+        <li><b>📝 مراجعة:</b> تلخيص سريع للنقاط الأساسية، مع حلول الأمثلة المحلولة كاملة، والإجابات النهائية لبقية التدريبات (مع إمكانية إظهار/إخفاء الإجابة).</li>
+        <li><b>🧪 اختبار:</b> اختبار إلكتروني من 15 سؤال اختيار من متعدد، بزمن محدد ساعة واحدة، يتطلب تسجيل الاسم الثلاثي والبريد الإلكتروني.</li>
+      </ul>
+      <div class="orbit-wrap">
+        <svg viewBox="0 0 300 300" aria-hidden="true">
+          <circle cx="150" cy="150" r="110" fill="none" stroke="#d4af37" stroke-opacity=".45" stroke-width="2" stroke-dasharray="4 6"/>
+          <line x1="150" y1="150" x2="260" y2="150" stroke="#f1d375" stroke-opacity=".5" stroke-width="1.5"/>
+          <g class="orbit-arm">
+            <line x1="150" y1="150" x2="260" y2="150" stroke="#f1d375" stroke-width="2"/>
+            <circle class="body-pulse" cx="260" cy="150" r="10" fill="#d4af37" stroke="#fff4d1" stroke-width="2"/>
+          </g>
+          <circle class="center-pulse" cx="150" cy="150" r="5" fill="#f1d375"/>
+          <text x="150" y="140" fill="#f1d375" font-size="14" text-anchor="middle" font-family="Tahoma">M</text>
+        </svg>
+      </div>
+      <div class="share-row">
+        <button class="btn-share" onclick="shareLesson()">📲 مشاركة عبر واتساب</button>
+        <div class="share-toast" id="shareToast">تم نسخ رسالة المشاركة ✔ الصقها في واتساب</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPLAIN -->
+  <section class="view" id="view-explain">
+    <div class="card">
+      <h2 class="section-title">📘 شرح الدرس</h2>
+
+      <h3 class="part-title">الجزء الأول</h3>
+
+      <h4 class="point-title">1) مفهوم الحركة الدائرية</h4>
+      <p>الحركة الدائرية <b>هي حركة الجسم في مسار دائري</b> حول نقطة ثابتة تسمى مركز الدوران.</p>
+
+      <h4 class="point-title">2) أنواع (أقسام) الحركة الدائرية</h4>
+      <p>تنقسم الحركة الدائرية إلى نوعين رئيسيين حسب انتظام السرعة والمسار:</p>
+      <table class="compare">
+        <tr><th>وجه المقارنة</th><th>الحركة الدائرية المنتظمة</th><th>الحركة الدائرية غير المنتظمة</th></tr>
+        <tr>
+          <td>التعريف</td>
+          <td>حركة الجسم في مسار دائري بسرعة ثابتة المقدار، بحيث يقطع الجسم أقواساً متساوية (أو زوايا متساوية) في أزمنة متساوية — لذلك تصلح كمبدأ لقياس الزمن.</td>
+          <td>حركة الجسم في مسار دائري بسرعة غير ثابتة، بحيث يقطع الجسم أقواساً غير متساوية (أو زوايا غير متساوية) في أزمنة متساوية والعكس.</td>
+        </tr>
+        <tr><td>نصف القطر</td><td>ثابت</td><td>غير ثابت</td></tr>
+        <tr><td>السرعة</td><td>ثابتة المقدار ومتغيرة الاتجاه</td><td>غير ثابتة المقدار والاتجاه</td></tr>
+        <tr><td>التسارع</td><td>مركزية فقط</td><td>مركزية ومماسية</td></tr>
+      </table>
+      <div class="note-box">💡 بما أن الحركة الدائرية المنتظمة تقطع أقواساً/زوايا متساوية في أزمنة متساوية، فإنها <b>تصلح كمبدأ لقياس الزمن</b> (مثل عقارب الساعة).</div>
+
+      <h3 class="part-title">الجزء الثاني</h3>
+
+      <h4 class="point-title">1) بعض مصطلحات الحركة الدائرية</h4>
+      <ul class="pointy">
+        <li><b>مركز الدوران (M):</b> النقطة الثابتة التي يدور حولها الجسم.</li>
+        <li><b>نصف قطر الدوران (r):</b> المسافة الثابتة بين مركز الدوران والجسم المتحرك.</li>
+        <li><b>طول المسار (القوس) (S):</b> الطول الذي يتحركه الجسم على المسار الدائري.</li>
+        <li><b>الإزاحة الزاوية (θ):</b> الزاوية المركزية التي يصنعها نصف القطر أثناء حركة الجسم على المسار الدائري.</li>
+      </ul>
+
+      <h4 class="point-title">2) الإزاحة الزاوية</h4>
+      <ul class="pointy">
+        <li><b>التعريف:</b> الزاوية المركزية التي يصنعها نصف القطر أثناء دوران الجسم على مسار دائري.</li>
+        <li><b>الرمز:</b> θ</li>
+        <li><b>وحدة القياس في النظام الدولي:</b> الراديان (rad)</li>
+      </ul>
+
+      <h4 class="point-title">قانون الإزاحة الزاوية</h4>
+      <div class="formula-box">
+        θ = S / r
+        <small>θ: الإزاحة الزاوية (rad) — S: طول القوس المقطوع (m) — r: نصف قطر المسار الدائري (m)</small>
+      </div>
+
+      <h4 class="point-title">تعريف الراديان الواحد</h4>
+      <p>الراديان: <b>زاوية مركزية طول قوسها يساوي طول نصف قطر الدائرة</b>. أي أنه في حالة الراديان الواحد يكون: S = r</p>
+
+      <h4 class="point-title">ملاحظات هامة جداً</h4>
+      <ul class="pointy">
+        <li>الراديان <b>ليس له أبعاد</b> لأنه نسبة بين طولين (S/r).</li>
+        <li>1 rad ≈ 57.3°، وبالتالي فإن <b>الراديان أكبر من الدرجة</b>.</li>
+        <li>في حالة الراديان الواحد: طول القوس S = طول نصف القطر r.</li>
+      </ul>
+
+      <h4 class="point-title">تحويلات هامة جداً بين الراديان والدرجة</h4>
+      <div class="formula-box">
+        من راديان إلى درجة: الزاوية (deg) = θ(rad) × 57.3 &nbsp;|&nbsp; (أو × 180/π)
+        <br>من درجة إلى راديان: θ(rad) = الزاوية(deg) ÷ 57.3 &nbsp;|&nbsp; (أو × π/180)
+      </div>
+      <div class="formula-box">
+        n = θ° / 360 &nbsp; (العلاقة بين الإزاحة الزاوية بالدرجات وعدد الدورات n)
+        <br>n = θ(rad) / 2π &nbsp; (العلاقة بين الإزاحة الزاوية بالراديان وعدد الدورات n)
+      </div>
+
+      <h4 class="point-title">أمثلة محلولة (الجزء الثاني)</h4>
+      <div class="example-box">
+        <h5>مثال 1:</h5>
+        <div class="diagram-wrap" id="diagExplain1"></div>
+        <p>إطار عجلة يدور بحيث تتحرك نقطة عند حافته 0.4m، إذا كان نصف قطر الإطار 1.2m، فما الزاوية التي تحركها الإطار بالراديان والتقدير الستيني؟</p>
+        <p>θ = S/r = 0.4/1.2 = 1/3 rad = 0.33 rad</p>
+        <p>θ = (1/3) × 57.3 = 19.1°</p>
+      </div>
+      <div class="example-box">
+        <h5>مثال 2:</h5>
+        <div class="diagram-wrap" id="diagExplain2"></div>
+        <p>في شكل الساعة، ما الزاوية بالراديان التي يقطعها العقرب عندما يتحرك من الرقم 12 إلى الرقم 4 (أي 4/12 من الدورة الكاملة)؟</p>
+        <p>θ = n × 2π = (4/12) × 2π = 2π/3 rad</p>
+      </div>
+      <div class="example-box">
+        <h5>مثال 3:</h5>
+        <div class="diagram-wrap" id="diagExplain3"></div>
+        <p>يركض ولد حول مسار دائري قطره 8.5m، إذا قطع الولد مسافة 60m على المسار: (a) احسب الإزاحة الزاوية بالراديان والدرجات. (b) كم دورة قطع الولد؟</p>
+        <p>r = 8.5/2 = 4.25m</p>
+        <p>θ = S/r = 60/4.25 = 14.12 rad</p>
+        <p>θ = 14.12 × 57.3 = 809°</p>
+        <p>عدد الدورات n = 809/360 = 2.25 دورة (أي دورتان كاملتان + 89° إضافية)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEW -->
+  <section class="view" id="view-review">
+    <div class="card">
+      <h2 class="section-title">📝 مراجعة سريعة</h2>
+      <div class="review-toc">
+        <a href="#rev-summary">ملخص النقاط</a>
+        <a href="#rev-solved">الأمثلة المحلولة</a>
+        <a href="#rev-drills">التدريبات</a>
+      </div>
+
+      <h4 class="point-title" id="rev-summary">ملخص النقاط الأساسية</h4>
+      <ul class="pointy">
+        <li>الحركة الدائرية: حركة جسم في مسار دائري.</li>
+        <li>منتظمة: نصف قطر ثابت + سرعة ثابتة المقدار + أقواس/زوايا متساوية في أزمنة متساوية + تسارع مركزي فقط.</li>
+        <li>غير منتظمة: نصف قطر غير ثابت + سرعة متغيرة + أقواس غير متساوية + تسارع مركزي ومماسي.</li>
+        <li>M: مركز الدوران — r: نصف القطر — S: طول القوس — θ: الإزاحة الزاوية.</li>
+        <li>القانون: <b>θ = S / r</b> — وحدة θ: الراديان (rad).</li>
+        <li>الراديان: زاوية مركزية طول قوسها = نصف القطر، وليس له أبعاد، و1rad ≈ 57.3° (الراديان أكبر من الدرجة).</li>
+        <li>التحويل: deg = rad × 57.3 &nbsp;|&nbsp; rad = deg ÷ 57.3</li>
+        <li>عدد الدورات: n = θ°/360 = θ(rad)/2π</li>
+      </ul>
+
+      <h4 class="point-title" id="rev-solved">الأمثلة المحلولة (بالحل الكامل)</h4>
+
+      <div class="example-box">
+        <h5>مثال 1: عجلة دراجة</h5>
+        <div class="diagram-wrap" id="diagReview1"></div>
+        <p>نصف قطر الإطار 1.2m، تحركت نقطة على الحافة 0.4m. المطلوب: الزاوية بالراديان بالتقدير الستيني.</p>
+        <button class="solution-toggle" onclick="toggleSol(this)">إظهار/إخفاء الحل</button>
+        <div class="solution-body">
+          <p>θ = S/r = 0.4/1.2 = 1/3 rad</p>
+          <p>θ = (1/3) × 57.3 = 19.1°</p>
+        </div>
+      </div>
+
+      <div class="example-box">
+        <h5>مثال 2: عقرب الساعة</h5>
+        <div class="diagram-wrap" id="diagReview2"></div>
+        <p>في شكل الساعة، ما الزاوية بالراديان التي يقطعها العقرب من الرقم 12 إلى الرقم 4 (4/12 من الدورة الكاملة)؟</p>
+        <button class="solution-toggle" onclick="toggleSol(this)">إظهار/إخفاء الحل</button>
+        <div class="solution-body">
+          <p>θ = (4/12) × 2π = 2π/3 rad</p>
+        </div>
+      </div>
+
+      <div class="example-box">
+        <h5>مثال 3: ولد يركض حول مسار دائري قطره 8.5m، قطع مسافة 60m</h5>
+        <div class="diagram-wrap" id="diagReview3"></div>
+        <p>(a) احسب الإزاحة الزاوية بالراديان والدرجات. (b) كم دورة قطع الولد؟</p>
+        <button class="solution-toggle" onclick="toggleSol(this)">إظهار/إخفاء الحل</button>
+        <div class="solution-body">
+          <p>r = 8.5/2 = 4.25m</p>
+          <p>θ = 60/4.25 = 14.12 rad = 14.12×57.3 = 809°</p>
+          <p>n = 809/360 = 2.25 دورة</p>
+        </div>
+      </div>
+
+      <h4 class="point-title" id="rev-drills">تدريبات — الإجابة النهائية فقط</h4>
+      <p class="small-note">اضغط "إظهار الإجابة" لرؤية الإجابة الصحيحة دون خطوات الحل.</p>
+
+      <div id="drillsContainer"></div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="view" id="view-quiz">
+    <div class="card" id="quizGateCard">
+      <h2 class="section-title">🧪 الاختبار الإلكتروني</h2>
+      <div class="warn-list">
+        <b>⚠️ تنبيهات هامة قبل بدء الاختبار:</b>
+        <ul class="pointy" style="margin-top:8px;">
+          <li>يجب إدخال <b>الاسم الثلاثي</b> و<b>البريد الإلكتروني</b> (حقلان إلزاميان) قبل بدء الاختبار.</li>
+          <li>مدة الاختبار <b>ساعة واحدة (60 دقيقة)</b> بالضبط، تُحسب من لحظة الضغط على "بدء الاختبار".</li>
+          <li>عند انتهاء الوقت يُغلق الاختبار تلقائياً ويتم تسليم إجاباتك الحالية فوراً.</li>
+          <li>عدد الأسئلة 15 سؤالاً من نوع اختيار من متعدد.</li>
+          <li>لا يمكن إعادة فتح الاختبار بعد التسليم أو انتهاء الوقت.</li>
+        </ul>
+      </div>
+      <div class="quiz-gate">
+        <input type="text" id="studentName" placeholder="الاسم الثلاثي (إلزامي)">
+        <input type="email" id="studentEmail" placeholder="البريد الإلكتروني (إلزامي)">
+        <div><button class="btn-gold" onclick="startQuiz()">🚀 بدء الاختبار</button></div>
+        <p id="gateError" style="color:#ff8b7d;font-weight:700;"></p>
+      </div>
+    </div>
+
+    <div class="card" id="quizRunningCard" style="display:none;">
+      <div class="timer-bar">
+        <span>⏱️ الوقت المتبقي</span>
+        <span id="timerDisplay">60:00</span>
+      </div>
+      <form id="quizForm"></form>
+      <div style="text-align:center;">
+        <button class="btn-gold" onclick="submitQuiz(false)">✅ تسليم الاختبار</button>
+      </div>
+    </div>
+
+    <div class="card result-card" id="quizResultCard" style="display:none;">
+      <h2 class="section-title">نتيجة الاختبار</h2>
+      <div class="result-score" id="scoreDisplay">--/15</div>
+      <p id="resultStudentInfo"></p>
+      <div class="strength-box" id="strengthBox"></div>
+      <div class="weak-box" id="weakBox"></div>
+      <p class="small-note">تم تسجيل نتيجتك بنجاح.</p>
+    </div>
+  </section>
+
+  <!-- TEACHER -->
+  <section class="view" id="view-teacher">
+    <div class="card teacher-gate" id="teacherGateCard">
+      <h2 class="section-title">🔐 لوحة المدرس</h2>
+      <p>هذه اللوحة مخصصة للمعلم لمتابعة نتائج الطلاب. الرجاء إدخال رمز الدخول.</p>
+      <input type="password" id="teacherPass" placeholder="رمز دخول المعلم" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--card-border);background:rgba(255,255,255,.05);color:var(--text-light);">
+      <div><button class="btn-gold" onclick="checkTeacherPass()">دخول</button></div>
+      <p id="teacherGateError" style="color:#ff8b7d;font-weight:700;"></p>
+    </div>
+
+    <div class="card" id="teacherPanel" style="display:none;">
+      <h2 class="section-title">📊 نتائج الطلاب</h2>
+      <div class="stat-cards" id="statCards"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+        <button class="btn-outline" onclick="loadTeacherData()">🔄 تحديث البيانات</button>
+        <button class="btn-gold" onclick="exportExcel()">⬇️ تصدير Excel</button>
+      </div>
+      <div class="dash-wrap">
+        <table class="dash" id="dashTable">
+          <thead>
+            <tr>
+              <th>الاسم</th><th>البريد الإلكتروني</th><th>الدرجة</th><th>صحيح</th><th>خطأ</th>
+              <th>بداية الاختبار</th><th>نهاية الاختبار</th><th>نقاط القوة</th><th>نقاط الضعف</th>
+            </tr>
+          </thead>
+          <tbody id="dashBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    أ. أحمد هاشم — مدرس الفيزياء © 2026 &nbsp;|&nbsp; <span dir="ltr">+20 100 302 1923</span><br><button class="teacher-link" onclick="showView('teacher')">لوحة المدرس</button>
+  </footer>
+</div>
+
+<script>
+/* ---------------- Watermark generation ---------------- */
+(function(){
+  const layer = document.getElementById('watermarkLayer');
+  for(let i=0;i<60;i++){
+    const s = document.createElement('span');
+    s.textContent = 'أحمد هاشم';
+    layer.appendChild(s);
+  }
+})();
+
+/* ---------------- Navigation ---------------- */
+const tabButtons = document.querySelectorAll('nav.tabs button');
+function showView(name){
+  tabButtons.forEach(b=>b.classList.toggle('active', b.dataset.target===name));
+  document.querySelectorAll('section.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+tabButtons.forEach(btn=>btn.addEventListener('click',()=>showView(btn.dataset.target)));
+
+/* ---------------- WhatsApp share ---------------- */
+async function shareLesson(){
+  const url = location.href.split('#')[0];
+  const text = "المحاضرة الأولى: الحركة الدائرية والإزاحة الزاوية – الصف الثاني عشر\nإعداد: أ. أحمد هاشم – مدرس الفيزياء\n"+url;
+  if(navigator.share){
+    try{ await navigator.share({title:"الحركة الدائرية والإزاحة الزاوية", text:text}); return; }catch(e){ if(e && e.name==='AbortError') return; }
+  }
+  try{ await navigator.clipboard.writeText(text); }
+  catch(e){
+    const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(_){}
+    document.body.removeChild(ta);
+  }
+  const t=document.getElementById('shareToast'); t.style.display='block';
+  setTimeout(()=>t.style.display='none',4000);
+}
+
+/* ---------------- Storage helper (works inside Claude artifact; falls back to memory) ---------------- */
+const memoryStore = {};
+const LS_PREFIX = 'ah_circ_';
+async function storeSet(key, value){
+  try{ localStorage.setItem(LS_PREFIX+key, value); return true; }catch(e){ memoryStore[key]=value; return true; }
+}
+async function storeGet(key){
+  try{ const v=localStorage.getItem(LS_PREFIX+key); if(v!==null) return {key,value:v}; }catch(e){}
+  if(key in memoryStore) return {key,value:memoryStore[key]};
+  return null;
+}
+async function storeList(prefix){
+  const keys=new Set();
+  try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k.startsWith(LS_PREFIX+prefix)) keys.add(k.slice(LS_PREFIX.length)); } }catch(e){}
+  Object.keys(memoryStore).forEach(k=>{ if(k.startsWith(prefix)) keys.add(k); });
+  return {keys:[...keys]};
+}
+
+/* ---------------- Toggle solution ---------------- */
+function toggleSol(btn){
+  const body = btn.nextElementSibling;
+  body.classList.toggle('show');
+}
+
+/* ---------------- Drills data (review section, answer-only) ---------------- */
+
+/* ---------------- Precision diagram generators (SVG) ---------------- */
+function polarPt(cx,cy,r,deg){const rad=deg*Math.PI/180;return [cx+r*Math.cos(rad), cy+r*Math.sin(rad)];}
+
+/* Side data box: text is wrapped into lines and placed in a fixed column to the LEFT or RIGHT of the drawing */
+function sideBox(side, yc, text, accent, ax, ay){
+  /* wrap: "text (note)" -> two lines without parentheses; long "a = b" -> two lines */
+  let lines = String(text).replace(/\)\s*$/,'').split(/\s*\(\s*/).filter(Boolean);
+  lines = lines.flatMap(l => (l.length>11 && l.includes(' = ')) ? [l.split(' = ')[0], '= '+l.split(' = ').slice(1).join(' = ')] : [l]);
+  const fs = 13, lh = 17;
+  const longest = Math.max(...lines.map(l=>l.length));
+  const w = Math.min(108, Math.max(44, longest*7 + 14));
+  const h = lines.length*lh + 8;
+  const zoneL = 4, zoneR = 456;
+  const x = side==='right' ? zoneR - w : zoneL;
+  const y = Math.min(300-h/2-4, Math.max(h/2+4, yc));
+  const edgeX = side==='right' ? x : x + w;
+  const tspans = lines.map((l,i)=>`<text x="${(x+w/2).toFixed(1)}" y="${(y - h/2 + 4 + lh*(i+0.75)).toFixed(1)}" fill="#fff4d1" font-size="${fs}" font-weight="bold" text-anchor="middle" font-family="Tahoma">${l}</text>`).join('');
+  const leader = (ax!==undefined) ? `<polyline points="${edgeX.toFixed(1)},${y.toFixed(1)} ${ax.toFixed(1)},${ay.toFixed(1)}" fill="none" stroke="${accent}" stroke-width="1.3" stroke-dasharray="4 3" stroke-opacity=".85"/><circle cx="${ax.toFixed(1)}" cy="${ay.toFixed(1)}" r="3.2" fill="${accent}"/>` : '';
+  return `<g>${leader}<rect x="${x.toFixed(1)}" y="${(y-h/2).toFixed(1)}" width="${w.toFixed(1)}" height="${h}" rx="7" fill="rgba(5,11,26,.92)" stroke="${accent}" stroke-width="1.2"/>${tspans}</g>`;
+}
+
+/* Small point badge (M, A, B) kept next to the point itself */
+function labelBadge(x,y,text,color,bg){
+  color = color || '#fff4d1';
+  bg = bg || 'rgba(5,11,26,.92)';
+  const w = Math.max(26, text.length*7.4 + 14);
+  const h = 20;
+  return `<g>
+    <rect x="${(x-w/2).toFixed(1)}" y="${(y-h/2).toFixed(1)}" width="${w.toFixed(1)}" height="${h}" rx="6" fill="${bg}" stroke="#d4af37" stroke-width="1"/>
+    <text x="${x.toFixed(1)}" y="${(y+4.5).toFixed(1)}" fill="${color}" font-size="13" font-weight="bold" text-anchor="middle" font-family="Tahoma">${text}</text>
+  </g>`;
+}
+
+function circleArcSVG(opts){
+  const {arcDeg=90,startDeg=-90,r=80,cx=230,cy=150,rLabel='r',sLabel='S',showAB=true,ptA='A',ptB='B'}=opts;
+  const [sx,sy]=polarPt(cx,cy,r,startDeg);
+  const endDeg=startDeg+arcDeg;
+  const [ex,ey]=polarPt(cx,cy,r,endDeg);
+  const large=arcDeg>180?1:0;
+  const midDeg=startDeg+arcDeg/2;
+  const [amx,amy]=polarPt(cx,cy,r,midDeg);          /* anchor of S on the arc */
+  const [rax,ray]=polarPt(cx,cy,r*0.5,startDeg);     /* anchor of r on the radius */
+  const [ax,ay]=polarPt(cx,cy,r*1.32,startDeg);
+  const [bx,by]=polarPt(cx,cy,r*1.32,endDeg);
+  /* S box goes to the side where the arc's middle lies; r box goes to the opposite side (clear of the sector) */
+  const sSide = Math.cos(midDeg*Math.PI/180) >= 0 ? 'right' : 'left';
+  const rSide = sSide==='right' ? 'left' : 'right';
+  return `<svg viewBox="0 0 460 300">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#d4af37" stroke-opacity=".55" stroke-width="2"/>
+    <path d="M ${cx} ${cy} L ${sx.toFixed(1)} ${sy.toFixed(1)} A ${r} ${r} 0 ${large} 1 ${ex.toFixed(1)} ${ey.toFixed(1)} Z" fill="#d4af37" fill-opacity=".24" stroke="none"/>
+    <line x1="${cx}" y1="${cy}" x2="${sx.toFixed(1)}" y2="${sy.toFixed(1)}" stroke="#f1d375" stroke-width="2.5"/>
+    <line x1="${cx}" y1="${cy}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}" stroke="#f1d375" stroke-width="2.5"/>
+    <circle cx="${cx}" cy="${cy}" r="4.5" fill="#f1d375"/>
+    ${labelBadge(cx-16, cy+18, 'M', '#0e0a00', '#f1d375')}
+    ${sideBox(rSide, ray, rLabel, '#f1d375', rax, ray)}
+    ${sideBox(sSide, amy, sLabel, '#7be3a3', amx, amy)}
+    ${showAB?`<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="4.5" fill="#ffffff"/>
+    ${labelBadge(ax, ay, ptA, '#0e0a00', '#ffffff')}
+    <circle cx="${ex.toFixed(1)}" cy="${ey.toFixed(1)}" r="4.5" fill="#ffffff"/>
+    ${labelBadge(bx, by, ptB, '#0e0a00', '#ffffff')}`:''}
+  </svg>`;
+}
+
+function clockSVG(fromHour,toHour){
+  const cx=150,cy=150,r=100;
+  const hourDeg=h=>{const hh=h%12; return hh*30-90;};
+  const [fx,fy]=polarPt(cx,cy,r*0.62,hourDeg(fromHour));
+  const [tx,ty]=polarPt(cx,cy,r*0.62,hourDeg(toHour));
+  const arcDeg=(hourDeg(toHour)-hourDeg(fromHour)+360)%360;
+  const large=arcDeg>180?1:0;
+  let numbers='';
+  for(let h=1;h<=12;h++){const [nx,ny]=polarPt(cx,cy,r*0.83,hourDeg(h)); numbers+=`<text x="${nx.toFixed(1)}" y="${(ny+5).toFixed(1)}" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle" font-family="Tahoma">${h}</text>`;}
+  return `<svg viewBox="0 0 300 300">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#d4af37" stroke-width="3"/>
+    <path d="M ${cx} ${cy} L ${fx.toFixed(1)} ${fy.toFixed(1)} A ${(r*0.62).toFixed(1)} ${(r*0.62).toFixed(1)} 0 ${large} 1 ${tx.toFixed(1)} ${ty.toFixed(1)} Z" fill="#d4af37" fill-opacity=".22"/>
+    ${numbers}
+    <line x1="${cx}" y1="${cy}" x2="${fx.toFixed(1)}" y2="${fy.toFixed(1)}" stroke="#f1d375" stroke-width="4" stroke-linecap="round"/>
+    <line x1="${cx}" y1="${cy}" x2="${tx.toFixed(1)}" y2="${ty.toFixed(1)}" stroke="#f1d375" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="${cx}" cy="${cy}" r="5" fill="#ffffff"/>
+  </svg>`;
+}
+
+function pizzaSVG(total,eaten){
+  const cx=150,cy=150,r=100;
+  let html=`<svg viewBox="0 0 300 300"><circle cx="${cx}" cy="${cy}" r="${r}" fill="#3a2410" stroke="#d4af37" stroke-width="3"/>`;
+  for(let i=0;i<total;i++){
+    const startDeg=i*(360/total)-90;
+    const endDeg=(i+1)*(360/total)-90;
+    const [sx,sy]=polarPt(cx,cy,r,startDeg);
+    const [ex,ey]=polarPt(cx,cy,r,endDeg);
+    const large=(360/total)>180?1:0;
+    const fillC = i<eaten? 'rgba(255,255,255,0.05)':'rgba(212,175,55,.4)';
+    html+=`<path d="M ${cx} ${cy} L ${sx.toFixed(1)} ${sy.toFixed(1)} A ${r} ${r} 0 ${large} 1 ${ex.toFixed(1)} ${ey.toFixed(1)} Z" fill="${fillC}" stroke="#0b1530" stroke-width="1.5"/>`;
+  }
+  html+=`</svg>`;
+  return html;
+}
+
+function tangentSVG(){
+  const cx=230,cy=150,r=80,bodyDeg=-40;
+  const [bx,by]=polarPt(cx,cy,r,bodyDeg);
+  const tanDeg=bodyDeg-90;
+  const [tx,ty]=polarPt(bx,by,62,tanDeg);
+  const mx=(bx+tx)/2, my=(by+ty)/2;
+  return `<svg viewBox="0 0 460 300">
+    <defs><marker id="arrowhead" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><polygon points="0 0, 8 4, 0 8" fill="#7be3a3"/></marker></defs>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#d4af37" stroke-dasharray="5 5" stroke-width="2"/>
+    <line x1="${cx}" y1="${cy}" x2="${bx.toFixed(1)}" y2="${by.toFixed(1)}" stroke="#f1d375" stroke-width="2" stroke-dasharray="3 4"/>
+    <circle cx="${bx.toFixed(1)}" cy="${by.toFixed(1)}" r="6" fill="#d4af37"/>
+    <line x1="${bx.toFixed(1)}" y1="${by.toFixed(1)}" x2="${tx.toFixed(1)}" y2="${ty.toFixed(1)}" stroke="#7be3a3" stroke-width="3" marker-end="url(#arrowhead)"/>
+    ${sideBox('left', my, 'مسار الجسم (مماس)', '#7be3a3', mx, my)}
+    <circle cx="${cx}" cy="${cy}" r="4" fill="#fff"/>
+    ${labelBadge(cx-16, cy+18, 'M', '#0e0a00', '#f1d375')}
+  </svg>`;
+}
+
+const drills = [
+  {q:"ما المصطلح العلمي الدال على: حركة جسم في مسار دائري أو يدور حول محور؟", a:"الحركة الدائرية"},
+  {q:"ما المصطلح العلمي الدال على: حركة جسم في مسار دائري بسرعة ثابتة المقدار؟", a:"الحركة الدائرية المنتظمة"},
+  {q:"ما المصطلح العلمي الدال على: الزاوية التي يقطعها الجسم أثناء دورانه؟", a:"الإزاحة الزاوية"},
+  {q:"ما المصطلح العلمي الدال على: حركة جسم في مسار دائري يقطع أقواساً متساوية في أزمنة متساوية؟", a:"الحركة الدائرية المنتظمة"},
+  {q:"ما المصطلح العلمي الدال على: حركة جسم في مسار دائري يقطع أقواساً غير متساوية في أزمنة متساوية؟", a:"الحركة الدائرية غير المنتظمة"},
+  {q:"حوّل 57.33° إلى راديان.", a:"≈ 1 rad"},
+  {q:"حوّل 110° إلى راديان.", a:"≈ 1.9 rad"},
+  {q:"حوّل 270° إلى راديان.", a:"≈ 4.71 rad"},
+  {q:"حوّل π/2 rad إلى درجات.", a:"90°"},
+  {q:"حوّل 4 rad إلى درجات.", a:"≈ 229.2°"},
+  {q:"حوّل 3π/2 rad إلى درجات.", a:"270°"},
+  {q:"الزاوية 0.5π rad تكافئ كم بالدرجة؟", a:"90°"},
+  {q:"ما الوحدة الدولية لقياس الإزاحة الزاوية؟", a:"الراديان (rad)"},
+  {q:"ما أبعاد الراديان؟", a:"ليس له أبعاد (كمية بلا أبعاد)"},
+  {d:()=>circleArcSVG({arcDeg:359,startDeg:-90,rLabel:'r',sLabel:'4 دورات = 8π rad',showAB:false}), q:"سيارة تدور حول مسار دائري منتظم بحيث تدور 4 دورات في دقيقة، ما مقدار الإزاحة الزاوية التي تصنعها؟", a:"θ = 4×2π = 8π rad"},
+  {d:()=>clockSVG(12,6), q:"ما مقدار الإزاحة الزاوية لعقرب الدقائق عندما يتحرك 30 دقيقة؟", a:"π rad (نصف دورة)"},
+  {d:()=>circleArcSVG({arcDeg:270,startDeg:-90,rLabel:'r = 20 cm',sLabel:'S = ؟'}), q:"جسم يتحرك في مسار دائري نصف قطره 20cm ويقطع ¾ المسار، احسب طول القوس الناتج.", a:"S = (3π/2)×20 ≈ 94.2 cm"},
+  {d:()=>circleArcSVG({arcDeg:120,startDeg:-90,rLabel:'r = 12 cm',sLabel:'θ = 120°'}), q:"ما طول القوس المقابل لزاوية مركزية 120° في دائرة نصف قطرها 12cm؟", a:"S ≈ 0.25 m"},
+  {d:()=>circleArcSVG({arcDeg:160.4,startDeg:-90,rLabel:'r = 0.5 m',sLabel:'S = 1.4 m'}), q:"قطار يتحرك على مسار دائري نصف قطره 0.5m ويقطع مسافة 1.4m، احسب الزاوية بالراديان.", a:"θ = 1.4/0.5 = 2.8 rad"},
+  {d:()=>circleArcSVG({arcDeg:171.9,startDeg:-90,rLabel:'r = 10 cm',sLabel:'S = 0.3 m'}), q:"إذا كان طول القوس AB يساوي 0.3m ونصف قطر الدائرة 10cm، فما قياس الزاوية θ؟", a:"θ = 3 rad ≈ 171.9°"},
+  {d:()=>circleArcSVG({arcDeg:57.3,startDeg:-90,rLabel:'r',sLabel:'S = r → 1 rad'}), q:"ما قياس زاوية في دائرة عندما يكون طول القوس مساوياً لنصف القطر؟", a:"1 rad"},
+  {d:()=>tangentSVG(), q:"في الشكل: جسم مربوط بخيط يدور في مسار دائري، أي خط يصف مسار الجسم إذا انقطع الخيط؟", a:"خط مستقيم في اتجاه المماس (الإجابة B)"},
+  {d:()=>clockSVG(8,12), q:"ما قياس الزاوية التي تصنعها عقارب الساعة بالدرجات والراديان عند تحركها من 8 إلى 12 (4 ساعات)؟", a:"θ = (4/12)×2π = 4π/3 rad ≈ 240°"},
+  {d:()=>pizzaSVG(8,5), q:"اشترى محمد بيتزا مقسمة إلى 8 أجزاء، فإذا أكل 5 أجزاء، ما قيمة الإزاحة الزاوية المقطوعة من البيتزا؟", a:"θ = (5/8)×2π = 5π/4 rad"},
+  {d:()=>circleArcSVG({arcDeg:150,startDeg:-90,rLabel:'r = 8 cm',sLabel:'θ = 150°'}), q:"إذا كان طول نصف قطر الدائرة 8cm والزاوية المركزية 150°، احسب طول القوس.", a:"S ≈ 0.209 m (20.9 cm)"},
+  {d:()=>circleArcSVG({arcDeg:128,startDeg:-90,rLabel:'r = 22 cm',sLabel:'θ = 128°'}), q:"دارت عجلة قيادة سيارة بزاوية قدرها 128°، وكان نصف قطرها 22cm، فما المسافة التي تتحركها نقطة على الطرف الخارجي؟", a:"S ≈ 0.49 m"},
+  {d:()=>circleArcSVG({arcDeg:34.4,startDeg:-90,rLabel:'r = 2.5 m',sLabel:'S = 1.5 m'}), q:"عجلة تدور بحيث تتحرك نقطة عند حافتها الخارجية مسافة 1.5m، وإذا كان نصف قطر العجلة 2.5m، فما مقدار الزاوية بالراديان؟", a:"θ = 1.5/2.5 = 0.6 rad"},
+  {q:"هل الراديان أكبر أم الدرجة؟", a:"الراديان أكبر (1rad ≈ 57.3°)"},
+  {q:"حوّل 45° إلى راديان.", a:"≈ 0.785 rad"},
+  {q:"حوّل 0.5236 rad إلى درجات.", a:"30°"},
+  {q:"حوّل 270° إلى راديان.", a:"≈ 4.71 rad"},
+  {q:"حوّل 7.85 rad إلى درجات.", a:"≈ 449.8°"},
+  {q:"حوّل 585° إلى راديان.", a:"≈ 10.2 rad"},
+  {q:"إذا كانت الإزاحة الزاوية 1618° فكم عدد الدورات؟", a:"n = 1618/360 ≈ 4.49 دورة"},
+  {q:"إذا كانت الإزاحة الزاوية 28.24 rad فكم عدد الدورات؟", a:"n = 28.24/2π ≈ 4.49 دورة"},
+  {q:"إذا كان عدد الدورات 6.75 دورة، فكم تكون الإزاحة الزاوية بالراديان وبالدرجة؟", a:"θ = 6.75×2π ≈ 42.41 rad ≈ 2430°"},
+];
+function renderDrills(){
+  const cont = document.getElementById('drillsContainer');
+  drills.forEach((d,i)=>{
+    const div = document.createElement('div');
+    div.className='qbox';
+    const diagramHtml = d.d ? `<div class="diagram-wrap">${d.d()}</div>` : '';
+    div.innerHTML = `<div><span class="qnum">${i+1}.</span> ${d.q}</div>
+      ${diagramHtml}
+      <button class="solution-toggle" onclick="this.nextElementSibling.classList.toggle('show')">إظهار/إخفاء الإجابة</button>
+      <div class="solution-body"><span class="answer-only">✔ ${d.a}</span></div>`;
+    cont.appendChild(div);
+  });
+}
+renderDrills();
+
+/* Populate static worked-example diagrams (explain + review sections) */
+(function(){
+  const ex1 = circleArcSVG({arcDeg:19.1, startDeg:-90, rLabel:'r = 1.2 m', sLabel:'S = 0.4 m'});
+  const ex2 = clockSVG(12,4);
+  const ex3 = circleArcSVG({arcDeg:89, startDeg:-90, rLabel:'r = 4.25 m', sLabel:'S = 60 m (بعد عدة لفات)'});
+  ['diagExplain1','diagReview1'].forEach(id=>{const el=document.getElementById(id); if(el) el.innerHTML=ex1;});
+  ['diagExplain2','diagReview2'].forEach(id=>{const el=document.getElementById(id); if(el) el.innerHTML=ex2;});
+  ['diagExplain3','diagReview3'].forEach(id=>{const el=document.getElementById(id); if(el) el.innerHTML=ex3;});
+})();
+
+/* ---------------- Quiz data ---------------- */
+const quizQuestions = [
+  {topic:"المفهوم والأنواع", q:"الحركة الدائرية هي:", opts:["حركة الجسم في خط مستقيم","حركة الجسم في مسار دائري","حركة الجسم بسرعة متزايدة دائماً","حركة الجسم للأعلى فقط"], correct:1},
+  {topic:"المفهوم والأنواع", q:"في الحركة الدائرية المنتظمة يقطع الجسم:", opts:["أقواساً غير متساوية في أزمنة متساوية","أقواساً متساوية في أزمنة متساوية","زوايا غير متساوية في أزمنة متساوية","لا شيء مما سبق"], correct:1},
+  {topic:"المفهوم والأنواع", q:"نصف قطر المسار في الحركة الدائرية المنتظمة يكون:", opts:["متغيراً","ثابتاً","صفراً","غير محدد"], correct:1},
+  {topic:"المفهوم والأنواع", q:"سرعة الجسم في الحركة الدائرية غير المنتظمة تكون:", opts:["ثابتة المقدار والاتجاه","ثابتة المقدار ومتغيرة الاتجاه فقط","غير ثابتة المقدار والاتجاه","صفر دائماً"], correct:2},
+  {topic:"المفهوم والأنواع", q:"في حالة الحركة الدائرية المنتظمة، يكون للجسم:", opts:["تسارع مركزي فقط","تسارع مماسي فقط","تسارع مركزي ومماسي","تسارع يساوي صفر"], correct:0},
+  {topic:"المصطلحات والراديان", q:"مركز الدوران هو:", opts:["نقطة ثابتة يدور حولها الجسم","نقطة على محيط الدائرة","طول القوس","الزاوية المركزية"], correct:0},
+  {topic:"المصطلحات والراديان", q:"الإزاحة الزاوية هي:", opts:["طول القوس الذي يقطعه الجسم","الزاوية المركزية التي يصنعها نصف القطر أثناء دوران الجسم","نصف قطر الدائرة","الزمن اللازم للدوران"], correct:1},
+  {topic:"المصطلحات والراديان", q:"وحدة قياس الإزاحة الزاوية في النظام الدولي هي:", opts:["المتر","الدرجة","الراديان","الثانية"], correct:2},
+  {topic:"المصطلحات والراديان", q:"الراديان الواحد يكافئ تقريباً:", opts:["57.3°","90°","180°","360°"], correct:0},
+  {topic:"المصطلحات والراديان", q:"في حالة الراديان الواحد يكون طول القوس S:", opts:["ضعف نصف القطر","يساوي نصف القطر r","نصف نصف القطر","يساوي القطر كاملاً"], correct:1},
+  {topic:"القوانين والتطبيقات", q:"قانون الإزاحة الزاوية هو:", opts:["θ = S × r","θ = S / r","θ = r / S","θ = S + r"], correct:1},
+  {topic:"القوانين والتطبيقات", q:"تحويل 0.5π rad إلى الدرجات يساوي:", opts:["45°","90°","180°","270°"], correct:1},
+  {topic:"القوانين والتطبيقات", q:"جسم يتحرك على مسار دائري نصف قطره 4m ويقطع قوساً طوله 8m، فإن إزاحته الزاوية تساوي:", opts:["0.5 rad","2 rad","32 rad","4 rad"], correct:1},
+  {topic:"القوانين والتطبيقات", q:"سيارة تدور دورتين كاملتين حول مسار دائري، فإن الإزاحة الزاوية التي تصنعها تساوي:", opts:["2π rad","4π rad","π rad","8π rad"], correct:1},
+  {topic:"القوانين والتطبيقات", q:"طول القوس الناتج عن زاوية مركزية مقدارها 60° في دائرة نصف قطرها 6cm يساوي تقريباً:", opts:["3.14 cm","6.28 cm","1.05 cm","12.56 cm"], correct:1},
+];
+
+let currentStudent = null;
+let quizTimerInterval = null;
+let quizEndTime = null;
+let quizSubmitted = false;
+
+function startQuiz(){
+  const name = document.getElementById('studentName').value.trim();
+  const email = document.getElementById('studentEmail').value.trim();
+  const errEl = document.getElementById('gateError');
+  const nameParts = name.split(/\s+/).filter(Boolean);
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if(nameParts.length < 3){ errEl.textContent = "الرجاء إدخال الاسم الثلاثي كاملاً."; return; }
+  if(!emailOk){ errEl.textContent = "الرجاء إدخال بريد إلكتروني صحيح."; return; }
+  errEl.textContent = "";
+  currentStudent = {name, email, startTime: Date.now()};
+  document.getElementById('quizGateCard').style.display='none';
+  document.getElementById('quizRunningCard').style.display='block';
+  renderQuizForm();
+  const durationMs = 60*60*1000;
+  quizEndTime = currentStudent.startTime + durationMs;
+  quizSubmitted = false;
+  quizTimerInterval = setInterval(updateTimer, 1000);
+  updateTimer();
+}
+
+function renderQuizForm(){
+  const form = document.getElementById('quizForm');
+  form.innerHTML='';
+  quizQuestions.forEach((q,i)=>{
+    const div = document.createElement('div');
+    div.className='quiz-q';
+    let optsHtml = q.opts.map((o,j)=>`
+      <label><input type="radio" name="q${i}" value="${j}"> ${o}</label>
+    `).join('');
+    div.innerHTML = `<div class="qtext">${i+1}. ${q.q}</div>${optsHtml}`;
+    form.appendChild(div);
+  });
+}
+
+function updateTimer(){
+  const remaining = quizEndTime - Date.now();
+  const disp = document.getElementById('timerDisplay');
+  if(remaining <= 0){
+    disp.textContent = "00:00";
+    clearInterval(quizTimerInterval);
+    if(!quizSubmitted) submitQuiz(true);
+    return;
+  }
+  const mins = Math.floor(remaining/60000);
+  const secs = Math.floor((remaining%60000)/1000);
+  disp.textContent = String(mins).padStart(2,'0')+":"+String(secs).padStart(2,'0');
+}
+
+async function submitQuiz(autoSubmitted){
+  if(quizSubmitted) return;
+  quizSubmitted = true;
+  clearInterval(quizTimerInterval);
+  const endTime = Date.now();
+  let score = 0;
+  const topicStats = {};
+  const answers = [];
+  quizQuestions.forEach((q,i)=>{
+    const sel = document.querySelector(`input[name="q${i}"]:checked`);
+    const chosen = sel ? parseInt(sel.value) : -1;
+    const correct = chosen === q.correct;
+    if(correct) score++;
+    answers.push({question:q.q, chosen, correct});
+    if(!topicStats[q.topic]) topicStats[q.topic] = {correct:0,total:0};
+    topicStats[q.topic].total++;
+    if(correct) topicStats[q.topic].correct++;
+  });
+
+  const strengths = [];
+  const weaknesses = [];
+  Object.keys(topicStats).forEach(t=>{
+    const st = topicStats[t];
+    const pct = st.correct/st.total;
+    if(pct >= 0.7) strengths.push(t+` (${st.correct}/${st.total})`);
+    else weaknesses.push(t+` (${st.correct}/${st.total})`);
+  });
+
+  const record = {
+    name: currentStudent.name,
+    email: currentStudent.email,
+    score: score,
+    total: quizQuestions.length,
+    correctCount: score,
+    wrongCount: quizQuestions.length - score,
+    startTime: new Date(currentStudent.startTime).toLocaleString('ar-EG'),
+    endTime: new Date(endTime).toLocaleString('ar-EG'),
+    autoSubmitted: !!autoSubmitted,
+    strengths: strengths.join(' | ') || 'لا يوجد',
+    weaknesses: weaknesses.join(' | ') || 'لا يوجد',
+    answers
+  };
+
+  await storeSet('quiz_results:'+currentStudent.email, JSON.stringify(record));
+
+  document.getElementById('quizRunningCard').style.display='none';
+  document.getElementById('quizResultCard').style.display='block';
+  document.getElementById('scoreDisplay').textContent = score+"/"+quizQuestions.length;
+  document.getElementById('resultStudentInfo').innerHTML = `الاسم: <b>${currentStudent.name}</b> — البريد: <b dir="ltr">${currentStudent.email}</b>`;
+  document.getElementById('strengthBox').innerHTML = `<b>✅ نقاط القوة:</b> ${record.strengths}`;
+  document.getElementById('weakBox').innerHTML = `<b>⚠️ نقاط الضعف:</b> ${record.weaknesses}`;
+}
+
+/* ---------------- Teacher dashboard ---------------- */
+const TEACHER_PASSCODE = "ALNOOR2025";
+function checkTeacherPass(){
+  const val = document.getElementById('teacherPass').value;
+  if(val === TEACHER_PASSCODE){
+    document.getElementById('teacherGateCard').style.display='none';
+    document.getElementById('teacherPanel').style.display='block';
+    loadTeacherData();
+  }else{
+    document.getElementById('teacherGateError').textContent = "رمز الدخول غير صحيح.";
+  }
+}
+
+let lastTeacherRecords = [];
+async function loadTeacherData(){
+  const listRes = await storeList('quiz_results:');
+  const keys = (listRes && listRes.keys) ? listRes.keys : [];
+  const records = [];
+  for(const k of keys){
+    const res = await storeGet(k);
+    if(res && res.value){
+      try{ records.push(JSON.parse(res.value)); }catch(e){}
+    }
+  }
+  lastTeacherRecords = records;
+  renderDashboard(records);
+}
+
+function renderDashboard(records){
+  const body = document.getElementById('dashBody');
+  body.innerHTML='';
+  let sum=0;
+  records.forEach(r=>{
+    sum += r.score;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${r.name}</td><td dir="ltr">${r.email}</td><td>${r.score}/${r.total}</td>
+      <td>${r.correctCount}</td><td>${r.wrongCount}</td>
+      <td>${r.startTime}</td><td>${r.endTime}</td>
+      <td>${r.strengths}</td><td>${r.weaknesses}</td>`;
+    body.appendChild(tr);
+  });
+  const avg = records.length ? (sum/records.length).toFixed(2) : 0;
+  document.getElementById('statCards').innerHTML = `
+    <div class="stat-card"><div class="num">${records.length}</div><div class="lbl">عدد الطلاب</div></div>
+    <div class="stat-card"><div class="num">${avg}</div><div class="lbl">متوسط الدرجات (من 15)</div></div>
+  `;
+}
+
+function exportExcel(){
+  if(!lastTeacherRecords.length){ alert('لا توجد بيانات لتصديرها بعد.'); return; }
+  const data = lastTeacherRecords.map(r=>({
+    "الاسم": r.name,
+    "البريد الإلكتروني": r.email,
+    "الدرجة": r.score+"/"+r.total,
+    "عدد الإجابات الصحيحة": r.correctCount,
+    "عدد الإجابات الخاطئة": r.wrongCount,
+    "وقت بداية الاختبار": r.startTime,
+    "وقت نهاية الاختبار": r.endTime,
+    "نقاط القوة": r.strengths,
+    "نقاط الضعف": r.weaknesses,
+    "تسليم تلقائي (انتهاء الوقت)": r.autoSubmitted ? "نعم" : "لا"
+  }));
+  const ws = XLSX.utils.json_to_sheet(data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "نتائج الطلاب");
+  XLSX.writeFile(wb, "نتائج_اختبار_الحركة_الدائرية.xlsx");
+}
+</script>
+</body>
+</html>
